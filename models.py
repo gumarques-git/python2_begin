@@ -17,10 +17,21 @@ class Perfil(object):
     def obter_curtidas(self):
         return self.__curtidas
     
+    @staticmethod
+    def gerar_perfis(nome_arquivo):
+        arquivo = open(nome_arquivo,'r')
+        perfis = []
+        for linha in arquivo:
+            valor = linha.split(',')
+            perfis.append(Perfil(*valor))
+        arquivo.close()
+        return perfis
+    
+    
     
 class Perfil_Vip(Perfil):
     'Classe padrão para perfis de usuários Vip'
-    def __init__ (self, nome, telefone, empresa, apelido):
+    def __init__ (self, nome, telefone, empresa, apelido=''):
         super(Perfil_Vip, self).__init__(nome, telefone, empresa)
         self.apelido = apelido 
 
@@ -30,3 +41,12 @@ class Perfil_Vip(Perfil):
     def obter_creditos(self):
         return super(Perfil_Vip, self).obter_curtidas() * 10.0
 
+    @classmethod
+    def gerar_perfis(classe, nome_arquivo):
+        arquivo = open(nome_arquivo,'r')
+        perfis = []
+        for linha in arquivo:
+            valor = linha.split(',')
+            perfis.append(classe(*valor))
+        arquivo.close()
+        return perfis
