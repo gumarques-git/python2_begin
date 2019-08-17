@@ -3,13 +3,17 @@
 
 from models import *
 
+arquivo = None #inicializando variavel para usar no If
+nome_arquivo = 'perfis.csv'
 try:
-    arquivo = open('perfis.csv', 'r')
-    valores = arquivo.readline().split(':') #usamos : para simular erro
-    Perfil(*valores)
-    arquivo.close()
-except IOError as erro:
-    print('Deu IOError: %s' % erro)
-except TypeError as erro:
-    print('Deu TypeError: %s' % erro)
+    arquivo = open(nome_arquivo, 'r')
+    valores = arquivo.readline().split(',') #usamos dois ponto ':' para simular erro
+    perfil = Perfil(*valores)
+except (IOError, TypeError) as erro:
+    print('Deu Exception: %s' % erro)
+finally:
+    if(arquivo is not None):
+        print('Fechando o arquivo: %s' % nome_arquivo)
+        arquivo.close()
+
         
