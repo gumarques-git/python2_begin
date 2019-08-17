@@ -3,6 +3,9 @@
 class Perfil(object):
     'Classe padrão para perfis de usuários'
     def __init__ (self, nome, telefone, empresa):
+        if(len(nome) < 3):
+            raise ArgumentoInvalidoError('Nome deve ter pelo menos 3 caracteres')
+            
         self.nome       = nome
         self.telefone   = telefone
         self.empresa    = empresa
@@ -23,6 +26,9 @@ class Perfil(object):
         perfis = []
         for linha in arquivo:
             valor = linha.split(',')
+            if(len(valor) is not 3 ):
+                raise ArgumentoInvalidoError('Uma linha no arquivo %s deve ter 3 valores' % nome_arquivo)
+                
             perfis.append(Perfil(*valor))
         arquivo.close()
         return perfis
@@ -47,6 +53,19 @@ class Perfil_Vip(Perfil):
         perfis = []
         for linha in arquivo:
             valor = linha.split(',')
+            if(len(valor) is not 3 ):
+                raise ArgumentoInvalidoError('Uma linha no arquivo %s deve ter 3 valores' % nome_arquivo)
+                
             perfis.append(classe(*valor))
         arquivo.close()
         return perfis
+    
+    
+    
+class ArgumentoInvalidoError(Exception):
+    'Classe para tratamento de Exceptions'
+    def __init__(self, message):
+        self.message = message
+        
+    def __str__(self):
+        return repr(self.message)
